@@ -1,0 +1,20 @@
+.app-mat-checkbox {
+  font-size: 10px;
+  // &:first-of-type {
+  //   text-decoration: underline;
+  // }
+}
+
+// material filter
+.mat-card {
+  padding: 21px;
+  &-subtitle {
+    font-size: 12px;
+  }
+}
+
+.mat-expansion-panel {
+  &-header-title {
+    font-size: 12px;
+  }
+}

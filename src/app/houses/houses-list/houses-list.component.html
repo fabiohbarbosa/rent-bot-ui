@@ -1,0 +1,26 @@
+<main class="container" *ngIf="dataset"
+  fxLayout fxLayout.xs="column"
+  fxLayoutAlign="center" fxLayoutGap="10px"
+  fxLayoutGap.xs="0">
+
+  <section fxFlex="15%">
+    <mat-card>
+      <mat-card-subtitle> Filter </mat-card-subtitle>
+    </mat-card>
+      <div class="app-filter-item">
+        <app-houses-filter title="Topology" [data]="topologies" [defaultData]="topologiesDefault" (valueSelected)="topologySelected($event)"></app-houses-filter>
+      </div>
+
+      <div class="app-filter-item">
+        <app-houses-filter title="Status" [data]="status" [defaultData]="statusDefault" (valueSelected)="statusSelected($event)"></app-houses-filter>
+      </div>
+
+      <div class="app-filter-item">
+        <app-houses-filter title="NGR" [data]="ngrs" [defaultData]="ngrsDefault" (valueSelected)="ngrSelected($event)" expanded="false"></app-houses-filter>
+      </div>
+  </section>
+
+  <section fxFlex="85%">
+    <app-houses-table [dataset]="dataset"></app-houses-table>
+  </section>
+</main>

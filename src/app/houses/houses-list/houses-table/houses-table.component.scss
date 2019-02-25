@@ -1,0 +1,29 @@
+@import '../../../../assets/functions';
+
+// material icon
+.mat-icon {
+  @include icon-size-sm();
+}
+
+// material table
+.mat-column-title {
+  margin-right: 20px;
+  flex: 0 0 45%;
+}
+
+.mat-column-link {
+  flex: 0 0 1%;
+}
+
+.mat-column-createAt {
+  span {
+    display: inline-block;
+    &:last-child {
+      font-size: 10px;
+    }
+  }
+}
+
+.mat-row {
+  cursor: pointer;
+}

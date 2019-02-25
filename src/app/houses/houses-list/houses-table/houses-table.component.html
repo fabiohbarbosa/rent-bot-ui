@@ -1,0 +1,45 @@
+<mat-table [dataSource]="dataset" class="mat-elevation-z8" matSort (matSortChange)="sortData($event)">
+  <ng-container matColumnDef="title">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="topology">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Topology </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.topology | unknown}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="ngr">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> NGR </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.ngr | unknown}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="price">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Price </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.price | price}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="createAt">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Create At </mat-header-cell>
+    <mat-cell *matCellDef="let element" fxLayout="column" fxLayoutAlign="center">
+      <span>{{element.createAt | date: 'dd/MM/yy'}}</span>
+      <span>{{element.createAt | date: 'HH:mm'}}</span>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="link">
+    <mat-header-cell *matHeaderCellDef> &nbsp; </mat-header-cell>
+    <mat-cell *matCellDef="let element" (click)="openLink(element.url)">
+      <mat-icon ngClass="md-24">open_in_new</mat-icon>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+</mat-table>

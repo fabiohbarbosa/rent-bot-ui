@@ -1,0 +1,21 @@
+@mixin icon-size($size) {
+  font-size: $size;
+  height: $size;
+  width: $size;
+}
+
+@mixin icon-size-sm() {
+  @include icon-size(18px);
+}
+
+@mixin icon-size-md() {
+  @include icon-size(24px);
+}
+
+@mixin icon-size-lg() {
+  @include icon-size(36px);
+}
+
+@mixin icon-size-xl() {
+  @include icon-size(48px);
+}

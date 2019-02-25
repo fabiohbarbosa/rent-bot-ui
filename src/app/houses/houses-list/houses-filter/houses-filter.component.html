@@ -1,0 +1,14 @@
+<mat-accordion>
+  <mat-expansion-panel [expanded]="expanded">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{title}}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <p *ngFor="let value of values" class="app-mat-checkbox">
+      <mat-checkbox checked="1" *ngIf="value.selected" (click)="selectValue(value.index)">{{value.value}}</mat-checkbox>
+      <mat-checkbox *ngIf="!value.selected" (click)="selectValue(value.index)">{{value.value}}</mat-checkbox>
+    </p>
+  </mat-expansion-panel>
+</mat-accordion>

@@ -1,0 +1,10 @@
+.container {
+  margin: 35px;
+}
+
+.app-filter-item {
+  &:first-of-type {
+    margin-top: 0;
+  }
+  margin-top: 0.5px;
+}
