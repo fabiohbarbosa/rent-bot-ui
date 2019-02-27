@@ -86,15 +86,15 @@ export class HousesListComponent implements OnInit {
 
     this.dataset = this.immutableProperties
       .filter(p => {
-        if (topologyLength > 0) return this.topologyFilters.indexOf(p.topology) > -1;
+        if (topologyLength > 0) { return this.topologyFilters.indexOf(p.topology) > -1; }
         return p;
       })
       .filter(p => {
-        if (statusLength > 0) return this.statusFilters.indexOf(p.status) > -1;
+        if (statusLength > 0) { return this.statusFilters.indexOf(p.status) > -1; }
         return p;
       })
       .filter(p => {
-        if (ngrLength > 0) return this.ngrFilters.indexOf(p.ngr) > -1;
+        if (ngrLength > 0) { return this.ngrFilters.indexOf(p.ngr) > -1; }
         return p;
       });
 

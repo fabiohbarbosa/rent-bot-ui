@@ -13,7 +13,7 @@ import Property, {
   providedIn: 'root'
 })
 export class PropertyService {
-  path: string = `${environment.api}/property`;
+  path = `${environment.api}/property`;
 
   constructor(private http: HttpClient) { }
 

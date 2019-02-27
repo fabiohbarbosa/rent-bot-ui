@@ -4,7 +4,7 @@ interface FilterValue {
   index: number;
   value: string;
   selected: boolean;
-};
+}
 
 @Component({
   selector: 'app-houses-filter',
@@ -26,7 +26,7 @@ export class HousesFilterComponent implements OnInit {
   valueSelected: EventEmitter<FilterValue[]> = new EventEmitter();
 
   @Input()
-  expanded: boolean = true;
+  expanded = true;
 
   values: FilterValue[];
 
@@ -36,7 +36,7 @@ export class HousesFilterComponent implements OnInit {
         index,
         value,
         selected: false
-      }
+      };
     });
 
     const defaultData = this.defaultData;

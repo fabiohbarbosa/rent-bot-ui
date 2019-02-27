@@ -27,7 +27,7 @@ enum Ngr {
 
 class Property {
   constructor(
-    public _id: string,
+    public _id: string, // tslint:disable-line:variable-name
     public title: string,
     public url: string,
     public ngr: Ngr,
@@ -42,7 +42,7 @@ class Property {
 // get by index
 const getEnumByIndex = <T>(index: string, Enum, Default: T): T => {
   const instance = Enum[index];
-  if (instance) return instance;
+  if (instance) { return instance; }
   return Default;
 };
 
@@ -62,7 +62,7 @@ const getEnumByValue = <T>(value: string, Enum): T => {
         .map(index => Enum[index]);
 
   if (instances.length !== 1) {
-    throw Error(`Found ${instances.length} elements for value '${value}'`)
+    throw Error(`Found ${instances.length} elements for value '${value}'`);
   }
   return instances[0];
 };
@@ -79,25 +79,11 @@ const getNgrByValue = (value: string): Ngr => {
   return getEnumByValue<Ngr>(value, Ngr);
 };
 
-const ngr: object = {
-  'a+': Ngr.A_PLUS,
-  '+a': Ngr.A_PLUS,
-  'a': Ngr.A,
-  'b+': Ngr.B_PLUS,
-  '+b': Ngr.B_PLUS,
-  'b': Ngr.B,
-  'c': Ngr.C,
-  'd': Ngr.D,
-  'e': Ngr.E,
-  'f': Ngr.F,
-  'Unknown': Ngr.UNKNOWN,
-}
-
 const getNgrByString = (value: string): Ngr => {
-  if (!value) return Ngr.UNKNOWN;
+  if (!value) { return Ngr.UNKNOWN; }
 
   const ngr = Ngr[value.toUpperCase()];
-  if (ngr) return ngr;
+  if (ngr) { return ngr; }
 
   return Ngr.UNKNOWN;
 };
