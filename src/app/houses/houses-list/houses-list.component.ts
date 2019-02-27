@@ -31,7 +31,7 @@ export class HousesListComponent implements OnInit {
 
   ngOnInit() {
     this.topologies = Object.values(Topology);
-    this.topologiesDefault = this.topologies;
+    this.topologiesDefault = [Topology.t3, Topology.t4, Topology.UNKNOWN];
     // this.topologies.unshift('Select all');
 
     this.status = Object.values(Status);
