@@ -33,9 +33,16 @@
   </ng-container>
 
   <ng-container matColumnDef="link">
-    <mat-header-cell *matHeaderCellDef> &nbsp; </mat-header-cell>
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
     <mat-cell *matCellDef="let element" (click)="openLink(element.url)">
-      <mat-icon ngClass="md-24">open_in_new</mat-icon>
+      <mat-icon>open_in_new</mat-icon>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="mail">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <mat-icon *ngIf="element.notificated">mail_outline</mat-icon>
     </mat-cell>
   </ng-container>
 

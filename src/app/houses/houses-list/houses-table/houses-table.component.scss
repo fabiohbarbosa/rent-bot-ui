@@ -2,7 +2,7 @@
 
 // material icon
 .mat-icon {
-  @include icon-size-sm();
+  @include icon-size-md();
 }
 
 // material table
@@ -12,7 +12,11 @@
 }
 
 .mat-column-link {
-  flex: 0 0 1%;
+  flex: 0 0 2%;
+}
+
+.mat-column-mail {
+  flex: 0 0 2%;
 }
 
 .mat-column-createAt {

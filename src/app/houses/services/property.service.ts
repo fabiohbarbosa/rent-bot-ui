@@ -33,7 +33,8 @@ export class PropertyService {
       p.price,
       new Date(p.createAt),
       getTopologyFromIndex(p.topology),
-      getStatusByIndex(p.status)
+      getStatusByIndex(p.status),
+      p.notificated
     );
   }
 }

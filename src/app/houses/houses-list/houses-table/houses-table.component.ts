@@ -17,13 +17,17 @@ export class HousesTableComponent implements OnInit {
 
   ngOnInit() {
     this.displayedColumns = [
-      'title', 'topology', 'ngr',
-      'price', 'createAt', 'status', 'link'
+      'title', 'topology', 'ngr', 'price',
+      'createAt', 'status', 'link', 'mail'
     ];
   }
 
   openLink(url: string): void {
     window.open(url, '_blank');
+  }
+
+  sortData(event): void {
+    console.log('TODO');
   }
 
 }

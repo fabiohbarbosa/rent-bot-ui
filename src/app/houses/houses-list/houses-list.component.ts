@@ -13,7 +13,7 @@ import { FilterValue } from './houses-filter/houses-filter.component';
 })
 export class HousesListComponent implements OnInit {
   immutableProperties: Property[];
-  dataset: Property[];
+  dataset: Property[] = [];
 
   topologies: Topology[];
   status: Status[];
@@ -48,10 +48,6 @@ export class HousesListComponent implements OnInit {
         this.immutableProperties = properties;
         this.dataset = properties;
       });
-  }
-
-  sortData(): void {
-    console.log('TODO');
   }
 
   topologySelected(filterValues: FilterValue[]): void {

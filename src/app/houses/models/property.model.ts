@@ -34,7 +34,8 @@ class Property {
     public price: number,
     public createAt: Date,
     public topology: Topology,
-    public status: Status) {
+    public status: Status,
+    public notificated: boolean) {
   }
 }
 
