@@ -1,4 +1,4 @@
 export const environment = {
-  api: 'http://service-rent-bot:8080',
+  api: 'http://fabiohbarbosa.ddnsgeek.com',
   production: true
 };
