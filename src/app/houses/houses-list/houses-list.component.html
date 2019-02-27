@@ -1,4 +1,4 @@
-<main class="container" *ngIf="dataset.length > 0"
+<main class="container"
   fxLayout fxLayout.xs="column"
   fxLayoutAlign="center" fxLayoutGap="10px"
   fxLayoutGap.xs="0">
@@ -21,6 +21,12 @@
   </section>
 
   <section fxFlex="85%">
-    <app-houses-table [dataset]="dataset"></app-houses-table>
+    <div fxLayout="column">
+        <mat-card>
+          <mat-card-subtitle> Total: {{dataset.length}} </mat-card-subtitle>
+        </mat-card>
+        <app-houses-table [dataset]="dataset"></app-houses-table>
+    </div>
   </section>
+
 </main>

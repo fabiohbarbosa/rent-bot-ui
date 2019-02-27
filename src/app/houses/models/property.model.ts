@@ -79,10 +79,24 @@ const getNgrByValue = (value: string): Ngr => {
   return getEnumByValue<Ngr>(value, Ngr);
 };
 
+const ngrMatcher: object = {
+  'a+': Ngr.A_PLUS,
+  '+a': Ngr.A_PLUS,
+  a: Ngr.A,
+  'b+': Ngr.B_PLUS,
+  '+b': Ngr.B_PLUS,
+  b: Ngr.B,
+  c: Ngr.C,
+  d: Ngr.D,
+  e: Ngr.E,
+  f: Ngr.F,
+  Unknown: Ngr.UNKNOWN,
+};
+
 const getNgrByString = (value: string): Ngr => {
   if (!value) { return Ngr.UNKNOWN; }
 
-  const ngr = Ngr[value.toUpperCase()];
+  const ngr = ngrMatcher[value.toLowerCase()];
   if (ngr) { return ngr; }
 
   return Ngr.UNKNOWN;
