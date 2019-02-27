@@ -1,4 +1,4 @@
 export const environment = {
-  api: 'http://service-rent-bot:3000',
+  api: 'http://service-rent-bot:8080',
   production: true
 };

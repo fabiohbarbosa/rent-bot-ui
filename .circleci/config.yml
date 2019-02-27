@@ -111,7 +111,6 @@ jobs:
 
       NODE_ENV: prod
       PORT: 80
-      TARGET_PORT: 4000
 
     steps:
       - <<: *attach_workspace
