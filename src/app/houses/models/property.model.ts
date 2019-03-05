@@ -83,17 +83,18 @@ const getNgrByValue = (value: string): Ngr => {
 const ngrMatcher = {
   'A++': { enumType: Ngr.A_PLUS, index: 0 },
   '++A': { enumType: Ngr.A_PLUS, index: 0 },
-  'A+': { enumType: Ngr.A_PLUS, index: 0 },
-  '+A': { enumType: Ngr.A_PLUS, index: 0 },
-  A: { enumType: Ngr.A, index: 1 },
-  'B+': { enumType: Ngr.B_PLUS, index: 2 },
-  '+B': { enumType: Ngr.B_PLUS, index: 2 },
-  B: { enumType: Ngr.B, index: 3 },
-  C: { enumType: Ngr.C, index: 4 },
-  D: { enumType: Ngr.D, index: 5 },
-  E: { enumType: Ngr.E, index: 6 },
-  F: { enumType: Ngr.F, index: 7 },
-  UNKNOWN: { enumType: Ngr.UNKNOWN, index: 8 }
+  'A+': { enumType: Ngr.A_PLUS, index: 1 },
+  '+A': { enumType: Ngr.A_PLUS, index: 1 },
+  A: { enumType: Ngr.A, index: 2 },
+  'B+': { enumType: Ngr.B_PLUS, index: 3 },
+  '+B': { enumType: Ngr.B_PLUS, index: 3 },
+  B: { enumType: Ngr.B, index: 4 },
+  C: { enumType: Ngr.C, index: 5 },
+  D: { enumType: Ngr.D, index: 6 },
+  E: { enumType: Ngr.E, index: 7 },
+  F: { enumType: Ngr.F, index: 8 },
+  G: { enumType: Ngr.F, index: 9 },
+  UNKNOWN: { enumType: Ngr.UNKNOWN, index: 10 }
 };
 
 const getNgrByString = (value: string): Ngr => {
