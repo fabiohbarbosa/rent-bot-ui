@@ -85,15 +85,15 @@ const ngrMatcher: object = {
   '++A': { enumType: Ngr.A_PLUS, index: 0 },
   'A+': { enumType: Ngr.A_PLUS, index: 0 },
   '+A': { enumType: Ngr.A_PLUS, index: 0 },
-  'A': { enumType: Ngr.A, index: 1 },
+  A: { enumType: Ngr.A, index: 1 },
   'B+': { enumType: Ngr.B_PLUS, index: 2 },
   '+B': { enumType: Ngr.B_PLUS, index: 2 },
-  'B': { enumType: Ngr.B, index: 3 },
-  'C': { enumType: Ngr.C, index: 4 },
-  'D': { enumType: Ngr.D, index: 5 },
-  'E': { enumType: Ngr.E, index: 6 },
-  'F': { enumType: Ngr.F, index: 7 },
-  'UNKNOWN': { enumType: Ngr.UNKNOWN, index: 8 }
+  B: { enumType: Ngr.B, index: 3 },
+  C: { enumType: Ngr.C, index: 4 },
+  D: { enumType: Ngr.D, index: 5 },
+  E: { enumType: Ngr.E, index: 6 },
+  F: { enumType: Ngr.F, index: 7 },
+  UNKNOWN: { enumType: Ngr.UNKNOWN, index: 8 }
 };
 
 const getNgrByString = (value: string): Ngr => {
@@ -106,20 +106,20 @@ const getNgrByString = (value: string): Ngr => {
 };
 
 const ngrComparableAsc = (p1: Property, p2: Property) => {
-  const p1NgrIndex = ngrMatcher[p1.ngr] ? ngrMatcher[p1.ngr].index : ngrMatcher['UNKNOWN'].index;
-  const p2NgrIndex = ngrMatcher[p2.ngr] ? ngrMatcher[p2.ngr].index : ngrMatcher['UNKNOWN'].index;
-  if (p1NgrIndex < p2NgrIndex) return -1;
-  if (p1NgrIndex > p2NgrIndex) return 1;
+  const p1NgrIndex = ngrMatcher[p1.ngr] ? ngrMatcher[p1.ngr].index : ngrMatcher.UNKNOWN.index;
+  const p2NgrIndex = ngrMatcher[p2.ngr] ? ngrMatcher[p2.ngr].index : ngrMatcher.UNKNOWN.index;
+  if (p1NgrIndex < p2NgrIndex) { return -1; }
+  if (p1NgrIndex > p2NgrIndex) { return 1; }
   return 0;
-}
+};
 
 const ngrComparableDesc = (p1: Property, p2: Property) => {
-  const p1NgrIndex = ngrMatcher[p1.ngr] ? ngrMatcher[p1.ngr].index : ngrMatcher['UNKNOWN'].index;
-  const p2NgrIndex = ngrMatcher[p2.ngr] ? ngrMatcher[p2.ngr].index : ngrMatcher['UNKNOWN'].index;
-  if (p1NgrIndex > p2NgrIndex) return -1;
-  if (p1NgrIndex < p2NgrIndex) return 1;
+  const p1NgrIndex = ngrMatcher[p1.ngr] ? ngrMatcher[p1.ngr].index : ngrMatcher.UNKNOWN.index;
+  const p2NgrIndex = ngrMatcher[p2.ngr] ? ngrMatcher[p2.ngr].index : ngrMatcher.UNKNOWN.index;
+  if (p1NgrIndex > p2NgrIndex) { return -1; }
+  if (p1NgrIndex < p2NgrIndex) { return 1; }
   return 0;
-}
+};
 
 
 export {

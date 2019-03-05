@@ -36,12 +36,15 @@ export class HousesFilterComponent implements OnInit {
   }
 
   selectValue(index: number): void {
+    let selected: boolean;
+    let newData: FilterValue[];
+
     if (index === 0) {
       // toggle value from first checkbox
-      const selected = !this.filters[0].selected;
+      selected = !this.filters[0].selected;
 
       // set from data select or unselect on all data
-      const newData =  this.data.map(d => ({...d, selected}));
+      newData =  this.data.map(d => ({...d, selected}));
       this.filters = this._unshiftSelectAllOption(newData, selected);
 
       // emit event sending data without 'select all' entry
@@ -49,16 +52,15 @@ export class HousesFilterComponent implements OnInit {
       return;
     }
 
-    const selected = !this.filters[index].selected;
+    selected = !this.filters[index].selected;
     this.filters.shift();
 
-    const newData = this.filters.map(d => {
-      if (d.index !== index - 1) return d;
+    newData = this.filters.map(d => {
+      if (d.index !== index - 1) { return d; }
       return { ...d, selected };
     });
 
-
-    const selectAll = newData.filter(d => d.selected).length == newData.length;
+    const selectAll = newData.filter(d => d.selected).length === newData.length;
     this.filters = this._unshiftSelectAllOption(newData, selectAll);
 
     this.valueSelected.emit(newData);

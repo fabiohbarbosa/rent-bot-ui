@@ -52,8 +52,8 @@ export class HousesListComponent implements OnInit {
         index,
         value,
         selected: false
-      })
-    })
+      });
+    });
 
     return filters;
   }
@@ -81,27 +81,27 @@ export class HousesListComponent implements OnInit {
 
   _applyFilter(): Property[] {
      // it waits for observable event message
-     if (!this.initialDatasetState) return [];
+     if (!this.initialDatasetState) { return []; }
 
-    const topologyLength = this.topologySelected.length;
-    const statusLength = this.statusSelected.length;
-    const ngrLength = this.ngrSelected.length;
+     const topologyLength = this.topologySelected.length;
+     const statusLength = this.statusSelected.length;
+     const ngrLength = this.ngrSelected.length;
 
-    if (topologyLength === 0 && statusLength === 0 && ngrLength === 0) {
+     if (topologyLength === 0 && statusLength === 0 && ngrLength === 0) {
       return this._initialState();
     }
 
-    return this.initialDatasetState
+     return this.initialDatasetState
       .filter(p => {
-        if (topologyLength === 0) return p;
+        if (topologyLength === 0) { return p; }
         return this.topologySelected .indexOf(p.topology) > -1;
       })
       .filter(p => {
-        if (statusLength === 0) return p;
+        if (statusLength === 0) { return p; }
         return this.statusSelected .indexOf(p.status) > -1;
       })
       .filter(p => {
-        if (ngrLength === 0) return p;
+        if (ngrLength === 0) { return p; }
         return this.ngrSelected.indexOf(p.ngr) > -1;
       });
   }

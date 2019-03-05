@@ -1,4 +1,5 @@
 @import '../../../../assets/functions';
+@import '../../../../assets/media';
 
 // material icon
 .mat-icon {
@@ -7,15 +8,40 @@
 
 // material table
 .mat-column-title {
-  margin-right: 20px;
-  flex: 0 0 45%;
+  @media screen and (min-width: $large-min) {
+    margin-right: 15px;
+    flex: 0 0 35%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @media screen and (max-width: $small-max) {
+    margin: 5px 10px 5px 0;
+  }
 }
 
-.mat-column-link {
-  flex: 0 0 2%;
+.mat-cell {
+  @media screen and (max-width: $small-max) {
+    font-size: 11px;
+    justify-content: flex-start;
+  }
 }
 
-.mat-column-mail {
+.mat-cell-title {
+  margin-right: 10px;
+}
+
+.mat-column-ngr {
+  @media screen and (min-width: $large-min) {
+    flex: 0 0 5%;
+  }
+  @media screen and (max-width: $small-max) {
+    flex: 0 0 10%;
+  }
+}
+
+.mat-column-link, .mat-column-mail {
   flex: 0 0 2%;
 }
 
@@ -30,4 +56,10 @@
 
 .mat-column-link {
   cursor: pointer;
+}
+
+.mat-row {
+  @media screen and (max-width: $small-max) {
+    cursor: pointer;
+  }
 }

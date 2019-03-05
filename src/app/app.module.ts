@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
+import { LayoutModule } from '@angular/cdk/layout';
 
 import { AppComponent } from './app.component';
 import { HousesModule } from './houses/houses.module';
@@ -16,8 +17,9 @@ import { MenuModule } from './menu/menu.module';
   ],
   imports: [
     HttpClientModule,
-    BrowserModule,
     AppRoutingModule,
+    LayoutModule,
+    BrowserModule,
     BrowserAnimationsModule,
     MaterialModule,
     MenuModule,
