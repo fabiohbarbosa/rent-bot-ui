@@ -18,6 +18,7 @@ enum Ngr {
   A = 'A',
   B_PLUS = 'B+',
   B = 'B',
+  B_MINUS = 'B-',
   C = 'C',
   D = 'D',
   E = 'E',
@@ -89,12 +90,14 @@ const ngrMatcher = {
   'B+': { enumType: Ngr.B_PLUS, index: 3 },
   '+B': { enumType: Ngr.B_PLUS, index: 3 },
   B: { enumType: Ngr.B, index: 4 },
-  C: { enumType: Ngr.C, index: 5 },
-  D: { enumType: Ngr.D, index: 6 },
-  E: { enumType: Ngr.E, index: 7 },
-  F: { enumType: Ngr.F, index: 8 },
-  G: { enumType: Ngr.F, index: 9 },
-  UNKNOWN: { enumType: Ngr.UNKNOWN, index: 10 }
+  '-B': { enumType: Ngr.B_MINUS, index: 5 },
+  'B-': { enumType: Ngr.B_MINUS, index: 5 },
+  C: { enumType: Ngr.C, index: 6 },
+  D: { enumType: Ngr.D, index: 7 },
+  E: { enumType: Ngr.E, index: 8 },
+  F: { enumType: Ngr.F, index: 9 },
+  G: { enumType: Ngr.F, index: 10 },
+  UNKNOWN: { enumType: Ngr.UNKNOWN, index: 11 }
 };
 
 const getNgrByString = (value: string): Ngr => {

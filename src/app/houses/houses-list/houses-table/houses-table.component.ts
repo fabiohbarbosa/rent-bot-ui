@@ -27,7 +27,7 @@ export class HousesTableComponent implements OnInit {
 
     const largeColumns = [
       'title', 'provider', 'topology', 'ngr',
-      'price', 'createAt', 'status', 'link', 'mail'
+      'price', 'createAt', 'status', 'link'
     ];
     this._layoutChangesBind(smallColumns, largeColumns);
   }
