@@ -80,7 +80,7 @@ const getNgrByValue = (value: string): Ngr => {
   return getEnumByValue<Ngr>(value, Ngr);
 };
 
-const ngrMatcher: object = {
+const ngrMatcher = {
   'A++': { enumType: Ngr.A_PLUS, index: 0 },
   '++A': { enumType: Ngr.A_PLUS, index: 0 },
   'A+': { enumType: Ngr.A_PLUS, index: 0 },
