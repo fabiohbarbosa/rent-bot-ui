@@ -28,6 +28,7 @@ export class PropertyService {
     return new Property(
       p._id,
       p.title,
+      p.provider,
       p.url,
       getNgrByString(p.energeticCertificate),
       p.price,

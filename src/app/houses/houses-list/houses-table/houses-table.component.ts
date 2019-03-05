@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import Property from '../../models/property.model';
+import { Sort } from '@angular/material';
 
 @Component({
   selector: 'app-houses-table',
@@ -11,14 +12,17 @@ export class HousesTableComponent implements OnInit {
   @Input()
   dataset: Property[] = [];
 
+  @Output()
+  sortDataEvent: EventEmitter<Sort> = new EventEmitter();
+
   displayedColumns: string[];
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     this.displayedColumns = [
-      'title', 'topology', 'ngr', 'price',
-      'createAt', 'status', 'link', 'mail'
+      'title', 'provider', 'topology', 'ngr',
+      'price', 'createAt', 'status', 'link', 'mail'
     ];
   }
 
@@ -26,8 +30,7 @@ export class HousesTableComponent implements OnInit {
     window.open(url, '_blank');
   }
 
-  sortData(event): void {
-    console.log('TODO');
+  sortData(sort: Sort) {
+    this.sortDataEvent.emit(sort);
   }
-
 }

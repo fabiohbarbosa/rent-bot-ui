@@ -4,6 +4,11 @@
     <mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
   </ng-container>
 
+  <ng-container matColumnDef="provider">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Provider </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.provider}} </mat-cell>
+  </ng-container>
+
   <ng-container matColumnDef="topology">
     <mat-header-cell *matHeaderCellDef mat-sort-header> Topology </mat-header-cell>
     <mat-cell *matCellDef="let element"> {{element.topology | unknown}} </mat-cell>

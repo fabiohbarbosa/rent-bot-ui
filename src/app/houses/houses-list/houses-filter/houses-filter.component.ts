@@ -17,7 +17,7 @@ export class HousesFilterComponent implements OnInit {
   title: string;
 
   @Input()
-  data: string[];
+  data: FilterValue[];
 
   @Input()
   defaultData: string[];
@@ -28,31 +28,52 @@ export class HousesFilterComponent implements OnInit {
   @Input()
   expanded = true;
 
-  values: FilterValue[];
+  filters: FilterValue[];
 
   ngOnInit() {
-    this.values = this.data.map((value, index) => {
-      return {
-        index,
-        value,
-        selected: false
-      };
-    });
-
-    const defaultData = this.defaultData;
-    if (defaultData && defaultData.length > 0) {
-      this.values = this.values
-        .map(v => ({ ...v, selected: defaultData.indexOf(v.value) > -1 }));
-    }
-
-    this.valueSelected.emit(this.values);
+    // create filters object with select all option
+    this.filters = this._unshiftSelectAllOption(this.data, false);
   }
 
-  selectValue(index: number) {
-    this.values[index].selected = !this.values[index].selected;
-    this.values[index].selected = !this.values[index].selected;
-    this.values[index].selected = !this.values[index].selected;
-    this.valueSelected.emit(this.values);
+  selectValue(index: number): void {
+    if (index === 0) {
+      // toggle value from first checkbox
+      const selected = !this.filters[0].selected;
+
+      // set from data select or unselect on all data
+      const newData =  this.data.map(d => ({...d, selected}));
+      this.filters = this._unshiftSelectAllOption(newData, selected);
+
+      // emit event sending data without 'select all' entry
+      this.valueSelected.emit(newData);
+      return;
+    }
+
+    const selected = !this.filters[index].selected;
+    this.filters.shift();
+
+    const newData = this.filters.map(d => {
+      if (d.index !== index - 1) return d;
+      return { ...d, selected };
+    });
+
+
+    const selectAll = newData.filter(d => d.selected).length == newData.length;
+    this.filters = this._unshiftSelectAllOption(newData, selectAll);
+
+    this.valueSelected.emit(newData);
+  }
+
+  _unshiftSelectAllOption(object: FilterValue[], selected: boolean): FilterValue[] {
+    const filters = Object.assign([], object);
+
+    filters.unshift({
+      index: -1,
+      value: 'Select all',
+      selected
+    });
+
+    return filters;
   }
 
 }

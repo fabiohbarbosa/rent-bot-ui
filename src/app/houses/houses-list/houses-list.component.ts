@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import Property, {
   Topology, Status, Ngr,
-  getTopologyByValue, getStatusByValue, getNgrByValue
+  getTopologyByValue, getStatusByValue, getNgrByValue, ngrComparableAsc, ngrComparableDesc
 } from '../models/property.model';
 import { PropertyService } from '../services/property.service';
 import { FilterValue } from './houses-filter/houses-filter.component';
+import { Sort } from '@angular/material';
+import { orderBy } from 'lodash';
 
 @Component({
   selector: 'app-houses-list',
@@ -12,91 +14,122 @@ import { FilterValue } from './houses-filter/houses-filter.component';
   styleUrls: ['./houses-list.component.scss']
 })
 export class HousesListComponent implements OnInit {
-  immutableProperties: Property[];
+  initialDatasetState: Property[];
   dataset: Property[] = [];
 
-  topologies: Topology[];
-  status: Status[];
-  ngrs: Ngr[];
+  // values to configure filters
+  topologyFilters: FilterValue[] = [];
+  statusFilters: FilterValue[] = [];
+  ngrFilters: FilterValue[] = [];
 
-  topologiesDefault: Topology[];
-  statusDefault: Status[];
-  ngrsDefault: Ngr[];
+  // values selected on filters
+  topologySelected: Topology[] = [];
+  statusSelected: Status[] = [];
+  ngrSelected: Ngr[] = [];
 
-  topologyFilters: Topology[] = [];
-  statusFilters: Status[] = [];
-  ngrFilters: Ngr[] = [];
+  defaultSort: Sort = { active: 'createAt', direction: 'asc' };
 
   constructor(private propertyService: PropertyService) { }
 
   ngOnInit() {
-    this.topologies = Object.values(Topology);
-    this.topologiesDefault = [Topology.t3, Topology.t4, Topology.UNKNOWN];
-    // this.topologies.unshift('Select all');
-
-    this.status = Object.values(Status);
-    this.statusDefault = [Status.MATCHED, Status.PENDING];
-    // this.status.unshift('Select all');
-
-    this.ngrs = Object.values(Ngr);
-    this.ngrsDefault = [Ngr.A_PLUS, Ngr.A, Ngr.B_PLUS, Ngr.B, Ngr.UNKNOWN];
-    // this.status.unshift('Select all');
+    this.topologyFilters = this._buildFilter(Object.values(Topology));
+    this.statusFilters = this._buildFilter(Object.values(Status));
+    this.ngrFilters = this._buildFilter(Object.values(Ngr));
 
     this.propertyService
       .findAll()
       .subscribe(properties => {
-        this.immutableProperties = properties;
-        this.dataset = properties;
+        this.initialDatasetState = this._clone(properties);
+        this.dataset = this._applyFilter();
       });
   }
 
-  topologySelected(filterValues: FilterValue[]): void {
-    this.topologyFilters = filterValues
-      .filter(f => f.selected)
-      .map(f => getTopologyByValue(f.value));
+  _buildFilter(enumValues: string[]): FilterValue[] {
+    const filters: FilterValue[] = [];
 
-    this.applyFilter();
+    enumValues.forEach((value, index) => {
+      filters.push({
+        index,
+        value,
+        selected: false
+      })
+    })
+
+    return filters;
   }
 
-  statusSelected(filterValues: FilterValue[]): void {
-    this.statusFilters = filterValues
-      .filter(f => f.selected)
-      .map(f => getStatusByValue(f.value));
-
-    this.applyFilter();
+  selectTopology(filterValues: FilterValue[]): void {
+    this.topologySelected = filterValues
+                              .filter(f => f.selected)
+                              .map(t => getTopologyByValue(t.value));
+    this.dataset = this._applyFilter();
   }
 
-  ngrSelected(filterValues: FilterValue[]): void {
-    this.ngrFilters = filterValues
-      .filter(f => f.selected)
-      .map(f => getNgrByValue(f.value));
-
-    this.applyFilter();
+  selectStatus(filterValues: FilterValue[]): void {
+    this.statusSelected = filterValues
+                            .filter(f => f.selected)
+                            .map(t => getStatusByValue(t.value));
+    this.dataset = this._applyFilter();
   }
 
-  applyFilter(): void {
-    const topologyLength = this.topologyFilters.length;
-    const statusLength = this.statusFilters.length;
-    const ngrLength = this.ngrFilters.length;
+  selectNgr(filterValues: FilterValue[]): void {
+    this.ngrSelected = filterValues
+                          .filter(f => f.selected)
+                          .map(t => getNgrByValue(t.value));
+    this.dataset = this._applyFilter();
+  }
+
+  _applyFilter(): Property[] {
+     // it waits for observable event message
+     if (!this.initialDatasetState) return [];
+
+    const topologyLength = this.topologySelected.length;
+    const statusLength = this.statusSelected.length;
+    const ngrLength = this.ngrSelected.length;
 
     if (topologyLength === 0 && statusLength === 0 && ngrLength === 0) {
-      this.dataset = this.immutableProperties;
+      return this._initialState();
+    }
+
+    return this.initialDatasetState
+      .filter(p => {
+        if (topologyLength === 0) return p;
+        return this.topologySelected .indexOf(p.topology) > -1;
+      })
+      .filter(p => {
+        if (statusLength === 0) return p;
+        return this.statusSelected .indexOf(p.status) > -1;
+      })
+      .filter(p => {
+        if (ngrLength === 0) return p;
+        return this.ngrSelected.indexOf(p.ngr) > -1;
+      });
+  }
+
+  sortData(sort: Sort) {
+    if (!sort.active || sort.direction === '') {
+      this.dataset = this._initialState();
       return;
     }
 
-    this.dataset = this.immutableProperties
-      .filter(p => {
-        if (topologyLength > 0) { return this.topologyFilters.indexOf(p.topology) > -1; }
-        return p;
-      })
-      .filter(p => {
-        if (statusLength > 0) { return this.statusFilters.indexOf(p.status) > -1; }
-        return p;
-      })
-      .filter(p => {
-        if (ngrLength > 0) { return this.ngrFilters.indexOf(p.ngr) > -1; }
-        return p;
-      });
+    if (sort.active === 'ngr') {
+      // clone object
+      const newDataset = this._initialState();
+      const ngrComparable = sort.direction === 'asc' ? ngrComparableAsc : ngrComparableDesc;
 
+      newDataset.sort(ngrComparable);
+      this.dataset = newDataset;
+      return;
+    }
+    this.dataset = orderBy(this.initialDatasetState, [sort.active], [sort.direction]);
   }
+
+  _initialState(): Property[] {
+    return this._clone(this.initialDatasetState);
+  }
+
+  _clone(properties: Property[]): Property[] {
+    return Object.assign([], properties);
+  }
+
 }
