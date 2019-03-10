@@ -1,4 +1,4 @@
 export const environment = {
-  api: 'http://fabiohbarbosa.ddnsgeek.com',
+  api: '/api',
   production: true
 };
