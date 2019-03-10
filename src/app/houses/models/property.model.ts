@@ -26,6 +26,13 @@ enum Ngr {
   UNKNOWN = 'Unknown'
 }
 
+enum Provider {
+  CUSTO_JUSTO = 'custojusto',
+  OLX = 'olx',
+  IMOVIRTUAL = 'imovirtual',
+  IDEALISTA = 'idealista'
+}
+
 class Property {
   constructor(
     public _id: string, // tslint:disable-line:variable-name
@@ -42,7 +49,7 @@ class Property {
 }
 
 // get by index
-const getEnumByIndex = <T>(index: string, Enum, Default: T): T => {
+const getEnumByIndex = <T>(index: string, Enum, Default: T = undefined): T => {
   const instance = Enum[index];
   if (instance) { return instance; }
   return Default;
@@ -54,6 +61,10 @@ const getTopologyFromIndex = (index: string): Topology => {
 
 const getStatusByIndex = (index: string): Status => {
   return getEnumByIndex<Status>(index, Status, Status.UNKNOWN);
+};
+
+const getProviderByIndex = (index: string): Provider => {
+  return getEnumByIndex<Provider>(index, Provider);
 };
 
 // get by value
@@ -75,6 +86,10 @@ const getTopologyByValue = (value: string): Topology => {
 
 const getStatusByValue = (value: string): Status => {
   return getEnumByValue<Status>(value, Status);
+};
+
+const getProviderByValue = (value: string): Provider => {
+  return getEnumByValue<Provider>(value, Provider);
 };
 
 const getNgrByValue = (value: string): Ngr => {
@@ -125,10 +140,10 @@ const ngrComparableDesc = (p1: Property, p2: Property) => {
   return 0;
 };
 
-
 export {
   Topology, getTopologyFromIndex, getTopologyByValue,
   Status, getStatusByIndex, getStatusByValue,
+  Provider, getProviderByIndex, getProviderByValue,
   Ngr, getNgrByString, getNgrByValue, ngrComparableAsc, ngrComparableDesc
  };
 

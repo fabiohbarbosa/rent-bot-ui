@@ -110,7 +110,7 @@ jobs:
       HEALTHCHECK: /healthcheck
 
       NODE_ENV: prod
-      PORT: 80
+      PORT: 3000
 
     steps:
       - <<: *attach_workspace
