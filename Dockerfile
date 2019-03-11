@@ -22,5 +22,5 @@ COPY --from=builder ${WORKDIR}/server ./server
 
 RUN npm install esm express
 
-EXPOSE 4000
+EXPOSE 3000
 CMD ["node", "server/index.js"]

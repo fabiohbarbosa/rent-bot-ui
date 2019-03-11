@@ -4,7 +4,7 @@ const configs = {
   server: {
     name: 'Rent Bot UI',
     maxConnections: 256,
-    port: process.env.PORT || 4000
+    port: process.env.PORT || 3000
   }
 };
 
