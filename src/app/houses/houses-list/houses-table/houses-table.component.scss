@@ -7,6 +7,15 @@
 }
 
 // material table
+.mat-column-index {
+  @media screen and (min-width: $large-min) {
+    flex: 0 0 5%;
+  }
+  @media screen and (max-width: $small-max) {
+    flex: 0 0 10%;
+  }
+}
+
 .mat-column-title {
   @media screen and (min-width: $large-min) {
     margin-right: 15px;

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import Property, {
-  Topology, Status, Ngr,
-  getTopologyByValue, getStatusByValue, getNgrByValue, ngrComparableAsc, ngrComparableDesc
+  Topology, Status, Ngr, Provider,
+  getTopologyByValue, getStatusByValue, getNgrByValue, getProviderByValue,
+  ngrComparableAsc, ngrComparableDesc
 } from '../models/property.model';
 import { PropertyService } from '../services/property.service';
 import { FilterValue } from './houses-filter/houses-filter.component';
@@ -21,11 +22,13 @@ export class HousesListComponent implements OnInit {
   topologyFilters: FilterValue[] = [];
   statusFilters: FilterValue[] = [];
   ngrFilters: FilterValue[] = [];
+  providerFilters: FilterValue[] = [];
 
   // values selected on filters
   topologySelected: Topology[] = [];
   statusSelected: Status[] = [];
   ngrSelected: Ngr[] = [];
+  providerSelected: Provider[] = [];
 
   defaultSort: Sort = { active: 'createAt', direction: 'asc' };
 
@@ -35,6 +38,7 @@ export class HousesListComponent implements OnInit {
     this.topologyFilters = this._buildFilter(Object.values(Topology));
     this.statusFilters = this._buildFilter(Object.values(Status));
     this.ngrFilters = this._buildFilter(Object.values(Ngr));
+    this.providerFilters = this._buildFilter(Object.values(Provider));
 
     this.propertyService
       .findAll()
@@ -60,50 +64,64 @@ export class HousesListComponent implements OnInit {
 
   selectTopology(filterValues: FilterValue[]): void {
     this.topologySelected = filterValues
-                              .filter(f => f.selected)
-                              .map(t => getTopologyByValue(t.value));
+      .filter(f => f.selected)
+      .map(t => getTopologyByValue(t.value));
     this.dataset = this._applyFilter();
   }
 
   selectStatus(filterValues: FilterValue[]): void {
     this.statusSelected = filterValues
-                            .filter(f => f.selected)
-                            .map(t => getStatusByValue(t.value));
+      .filter(f => f.selected)
+      .map(t => getStatusByValue(t.value));
     this.dataset = this._applyFilter();
   }
 
   selectNgr(filterValues: FilterValue[]): void {
     this.ngrSelected = filterValues
-                          .filter(f => f.selected)
-                          .map(t => getNgrByValue(t.value));
+      .filter(f => f.selected)
+      .map(t => getNgrByValue(t.value));
+    this.dataset = this._applyFilter();
+  }
+
+  selectProvider(filterValues: FilterValue[]): void {
+    this.providerSelected = filterValues
+      .filter(f => f.selected)
+      .map(t => getProviderByValue(t.value));
     this.dataset = this._applyFilter();
   }
 
   _applyFilter(): Property[] {
-     // it waits for observable event message
-     if (!this.initialDatasetState) { return []; }
+    // it waits for observable event message
+    if (!this.initialDatasetState) { return []; }
 
-     const topologyLength = this.topologySelected.length;
-     const statusLength = this.statusSelected.length;
-     const ngrLength = this.ngrSelected.length;
+    const topologyLength = this.topologySelected.length;
+    const statusLength = this.statusSelected.length;
+    const ngrLength = this.ngrSelected.length;
+    const providerLength = this.providerSelected.length;
 
-     if (topologyLength === 0 && statusLength === 0 && ngrLength === 0) {
+    if (topologyLength === 0 && statusLength === 0 && ngrLength === 0 && providerLength === 0) {
       return this._initialState();
     }
 
-     return this.initialDatasetState
+    const filteredProperties = this.initialDatasetState
       .filter(p => {
         if (topologyLength === 0) { return p; }
-        return this.topologySelected .indexOf(p.topology) > -1;
+        return this.topologySelected.indexOf(p.topology) > -1;
       })
       .filter(p => {
         if (statusLength === 0) { return p; }
-        return this.statusSelected .indexOf(p.status) > -1;
+        return this.statusSelected.indexOf(p.status) > -1;
       })
       .filter(p => {
         if (ngrLength === 0) { return p; }
         return this.ngrSelected.indexOf(p.ngr) > -1;
+      })
+      .filter(p => {
+        if (providerLength === 0) { return p; }
+        return this.providerSelected.indexOf(p.provider) > -1;
       });
+
+    return filteredProperties;
   }
 
   sortData(sort: Sort) {
@@ -112,7 +130,7 @@ export class HousesListComponent implements OnInit {
       return;
     }
 
-    if (sort.active === 'ngr') {
+    if (sort.active === 'ngr') {
       // clone object
       const newDataset = this._initialState();
       const ngrComparable = sort.direction === 'asc' ? ngrComparableAsc : ngrComparableDesc;

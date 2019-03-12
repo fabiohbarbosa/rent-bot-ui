@@ -1,7 +1,12 @@
 <mat-table [dataSource]="dataset" class="mat-elevation-z8" matSort (matSortChange)="sortData($event)">
+  <ng-container matColumnDef="index">
+    <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+    <mat-cell *matCellDef="let i = index">{{i + 1}}</mat-cell>
+  </ng-container>
+
   <ng-container matColumnDef="title">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Title</mat-header-cell>
+    <mat-cell *matCellDef="let element; let i = index">{{element.title}}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="provider">

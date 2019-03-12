@@ -37,7 +37,7 @@ class Property {
   constructor(
     public _id: string, // tslint:disable-line:variable-name
     public title: string,
-    public provider: string,
+    public provider: Provider,
     public url: string,
     public ngr: Ngr,
     public price: number,

@@ -22,10 +22,11 @@ export class HousesTableComponent implements OnInit {
 
   ngOnInit() {
     const smallColumns = [
-      'title', 'ngr'
+      'index', 'title', 'ngr'
     ];
 
     const largeColumns = [
+      'index',
       'title', 'provider', 'topology', 'ngr',
       'price', 'createAt', 'status', 'link'
     ];
@@ -56,7 +57,6 @@ export class HousesTableComponent implements OnInit {
     ]).subscribe(result => {
       if (!result.matches) { return; }
       this.displayedColumns = smallColumns;
-      console.log('Small device changed');
     });
 
     this.breakpointObserver.observe([
@@ -64,7 +64,6 @@ export class HousesTableComponent implements OnInit {
     ]).subscribe(result => {
       if (!result.matches) { return; }
       this.displayedColumns = largeColumns;
-      console.log('Big device changed');
     });
 
   }

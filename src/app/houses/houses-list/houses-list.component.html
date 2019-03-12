@@ -17,6 +17,10 @@
       <div class="app-filter-item">
         <app-houses-filter title="NGR" [data]="ngrFilters" (valueSelected)="selectNgr($event)" expanded="false"></app-houses-filter>
       </div>
+
+      <div class="app-filter-item">
+        <app-houses-filter title="Provider" [data]="providerFilters" (valueSelected)="selectProvider($event)" expanded="false"></app-houses-filter>
+      </div>
   </section>
 
   <section fxFlex="85%">

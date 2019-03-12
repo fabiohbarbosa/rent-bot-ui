@@ -5,8 +5,7 @@ import { map, retry } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
 import Property, {
-  Ngr,
-  getStatusByIndex, getTopologyFromIndex, getNgrByString,
+  getStatusByIndex, getTopologyFromIndex, getNgrByString, getProviderByValue,
 } from '../models/property.model';
 
 @Injectable({
@@ -28,7 +27,7 @@ export class PropertyService {
     return new Property(
       p._id,
       p.title,
-      p.provider,
+      getProviderByValue(p.provider),
       p.url,
       getNgrByString(p.energeticCertificate),
       p.price,

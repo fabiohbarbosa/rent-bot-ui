@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  api: 'http://fabiohbarbosa.ddnsgeek.com',
+  api: 'http://homerentals.ddnsgeek.com/api',
   // api: 'http://localhost:3000',
   production: false
 };
