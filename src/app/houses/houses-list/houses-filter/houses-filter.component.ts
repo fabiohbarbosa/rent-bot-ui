@@ -19,9 +19,6 @@ export class HousesFilterComponent implements OnInit {
   @Input()
   data: FilterValue[];
 
-  @Input()
-  defaultData: string[];
-
   @Output()
   valueSelected: EventEmitter<FilterValue[]> = new EventEmitter();
 
@@ -32,7 +29,8 @@ export class HousesFilterComponent implements OnInit {
 
   ngOnInit() {
     // create filters object with select all option
-    this.filters = this._unshiftSelectAllOption(this.data, false);
+    const isSelectAll = this.data.filter(d => d.selected).length === this.data.length;
+    this.filters = this._unshiftSelectAllOption(this.data, isSelectAll);
   }
 
   selectValue(index: number): void {

@@ -8,18 +8,18 @@
       <mat-card-subtitle> Filter </mat-card-subtitle>
     </mat-card>
       <div class="app-filter-item">
-        <app-houses-filter title="Topology" [data]="topologyFilters" (valueSelected)="selectTopology($event)" expanded="false"></app-houses-filter>
+        <app-houses-filter title="Topology" [data]="topologyFilters" (valueSelected)="selectTopology($event)" [expanded]="isTopologyExpanded"></app-houses-filter>
       </div>
       <div class="app-filter-item">
-        <app-houses-filter title="Status" [data]="statusFilters" (valueSelected)="selectStatus($event)" expanded="false"></app-houses-filter>
-      </div>
-
-      <div class="app-filter-item">
-        <app-houses-filter title="NGR" [data]="ngrFilters" (valueSelected)="selectNgr($event)" expanded="false"></app-houses-filter>
+        <app-houses-filter title="Status" [data]="statusFilters" (valueSelected)="selectStatus($event)" [expanded]="isStatusExpanded"></app-houses-filter>
       </div>
 
       <div class="app-filter-item">
-        <app-houses-filter title="Provider" [data]="providerFilters" (valueSelected)="selectProvider($event)" expanded="false"></app-houses-filter>
+        <app-houses-filter title="NGR" [data]="ngrFilters" (valueSelected)="selectNgr($event)" [expanded]="isNgrExpanded"></app-houses-filter>
+      </div>
+
+      <div class="app-filter-item">
+        <app-houses-filter title="Provider" [data]="providerFilters" (valueSelected)="selectProvider($event)" [expanded]="isProviderExpanded"></app-houses-filter>
       </div>
   </section>
 

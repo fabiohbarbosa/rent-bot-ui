@@ -15,6 +15,8 @@ import { orderBy } from 'lodash';
   styleUrls: ['./houses-list.component.scss']
 })
 export class HousesListComponent implements OnInit {
+  localStorage: Storage = window.localStorage;
+
   initialDatasetState: Property[];
   dataset: Property[] = [];
 
@@ -25,10 +27,15 @@ export class HousesListComponent implements OnInit {
   providerFilters: FilterValue[] = [];
 
   // values selected on filters
-  topologySelected: Topology[] = [];
-  statusSelected: Status[] = [];
-  ngrSelected: Ngr[] = [];
-  providerSelected: Provider[] = [];
+  topologySelected: Topology[];
+  statusSelected: Status[];
+  ngrSelected: Ngr[];
+  providerSelected: Provider[];
+
+  isTopologyExpanded = false;
+  isStatusExpanded = false;
+  isNgrExpanded = false;
+  isProviderExpanded = false;
 
   defaultSort: Sort = { active: 'createAt', direction: 'asc' };
 
@@ -45,52 +52,102 @@ export class HousesListComponent implements OnInit {
       .subscribe(properties => {
         this.initialDatasetState = this._clone(properties);
         this.dataset = this._applyFilter();
-      });
-  }
+      }
+    );
 
-  _buildFilter(enumValues: string[]): FilterValue[] {
-    const filters: FilterValue[] = [];
-
-    enumValues.forEach((value, index) => {
-      filters.push({
-        index,
-        value,
-        selected: false
-      });
-    });
-
-    return filters;
+    this._loadSelectedFiltersFromStorage();
   }
 
   selectTopology(filterValues: FilterValue[]): void {
-    this.topologySelected = filterValues
+    const topologySelected: Topology[] = filterValues
       .filter(f => f.selected)
       .map(t => getTopologyByValue(t.value));
+
+    this._setSelectedFilter<Topology>('topologySelected', topologySelected);
     this.dataset = this._applyFilter();
   }
 
   selectStatus(filterValues: FilterValue[]): void {
-    this.statusSelected = filterValues
+    const statusSelected = filterValues
       .filter(f => f.selected)
       .map(t => getStatusByValue(t.value));
+
+    this._setSelectedFilter<Status>('statusSelected', statusSelected);
     this.dataset = this._applyFilter();
   }
 
   selectNgr(filterValues: FilterValue[]): void {
-    this.ngrSelected = filterValues
+    const ngrSelected = filterValues
       .filter(f => f.selected)
       .map(t => getNgrByValue(t.value));
+
+    this._setSelectedFilter<Ngr>('ngrSelected', ngrSelected);
     this.dataset = this._applyFilter();
   }
 
   selectProvider(filterValues: FilterValue[]): void {
-    this.providerSelected = filterValues
+    const providerSelected = filterValues
       .filter(f => f.selected)
       .map(t => getProviderByValue(t.value));
+
+    this._setSelectedFilter<Provider>('providerSelected', providerSelected);
     this.dataset = this._applyFilter();
   }
 
-  _applyFilter(): Property[] {
+  sortData(sort: Sort) {
+    if (!sort.active || sort.direction === '') {
+      this.dataset = this._initialState();
+      return;
+    }
+
+    if (sort.active === 'ngr') {
+      // clone object
+      const newDataset = this._initialState();
+      const ngrComparable = sort.direction === 'asc' ? ngrComparableAsc : ngrComparableDesc;
+
+      newDataset.sort(ngrComparable);
+      this.dataset = newDataset;
+      return;
+    }
+    this.dataset = orderBy(this.initialDatasetState, [sort.active], [sort.direction]);
+  }
+
+  private _loadSelectedFiltersFromStorage(): void {
+    this.topologySelected = this._getSelectedFilter('topologySelected') || [];
+    this.statusSelected = this._getSelectedFilter('statusSelected') || [];
+    this.ngrSelected = this._getSelectedFilter('ngrSelected') || [];
+    this.providerSelected = this._getSelectedFilter('providerSelected') || [];
+
+    this.topologyFilters.forEach(f => {
+      if (this.topologySelected.indexOf(getTopologyByValue(f.value)) > -1) {
+        f.selected =  true;
+        this.isTopologyExpanded = true;
+      }
+    });
+
+    this.statusFilters.forEach(f => {
+      if (this.statusSelected.indexOf(getStatusByValue(f.value)) > -1) {
+        f.selected =  true;
+        this.isStatusExpanded = true;
+      }
+    });
+
+    this.ngrFilters.forEach(f => {
+      if (this.ngrSelected.indexOf(getNgrByValue(f.value)) > -1) {
+        f.selected =  true;
+        this.isNgrExpanded = true;
+      }
+    });
+
+    this.providerFilters.forEach(f => {
+      if (this.providerSelected.indexOf(getProviderByValue(f.value)) > -1) {
+        f.selected =  true;
+        this.isProviderExpanded = true;
+      }
+    });
+  }
+
+  private _applyFilter(): Property[] {
     // it waits for observable event message
     if (!this.initialDatasetState) { return []; }
 
@@ -124,30 +181,34 @@ export class HousesListComponent implements OnInit {
     return filteredProperties;
   }
 
-  sortData(sort: Sort) {
-    if (!sort.active || sort.direction === '') {
-      this.dataset = this._initialState();
-      return;
-    }
+  private _buildFilter(enumValues: string[]): FilterValue[] {
+    const filters: FilterValue[] = [];
 
-    if (sort.active === 'ngr') {
-      // clone object
-      const newDataset = this._initialState();
-      const ngrComparable = sort.direction === 'asc' ? ngrComparableAsc : ngrComparableDesc;
+    enumValues.forEach((value, index) => {
+      filters.push({
+        index,
+        value,
+        selected: false
+      });
+    });
 
-      newDataset.sort(ngrComparable);
-      this.dataset = newDataset;
-      return;
-    }
-    this.dataset = orderBy(this.initialDatasetState, [sort.active], [sort.direction]);
+    return filters;
   }
 
-  _initialState(): Property[] {
+  private _initialState(): Property[] {
     return this._clone(this.initialDatasetState);
   }
 
-  _clone(properties: Property[]): Property[] {
+  private _clone(properties: Property[]): Property[] {
     return Object.assign([], properties);
+  }
+
+  private _setSelectedFilter<T>(key: string, value: T[]): void {
+    this.localStorage.setItem(key, JSON.stringify(value));
+  }
+
+  private _getSelectedFilter<T>(key: string): T[] {
+    return JSON.parse(this.localStorage.getItem(key));
   }
 
 }
