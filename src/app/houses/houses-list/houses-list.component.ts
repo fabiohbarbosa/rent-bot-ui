@@ -63,7 +63,8 @@ export class HousesListComponent implements OnInit {
       .filter(f => f.selected)
       .map(t => getTopologyByValue(t.value));
 
-    this._setSelectedFilter<Topology>('topologySelected', topologySelected);
+    this.topologySelected = topologySelected;
+    this._storageSelectedFilter<Topology>('topologySelected', topologySelected);
     this.dataset = this._applyFilter();
   }
 
@@ -72,7 +73,8 @@ export class HousesListComponent implements OnInit {
       .filter(f => f.selected)
       .map(t => getStatusByValue(t.value));
 
-    this._setSelectedFilter<Status>('statusSelected', statusSelected);
+    this.statusSelected = statusSelected;
+    this._storageSelectedFilter<Status>('statusSelected', statusSelected);
     this.dataset = this._applyFilter();
   }
 
@@ -81,7 +83,8 @@ export class HousesListComponent implements OnInit {
       .filter(f => f.selected)
       .map(t => getNgrByValue(t.value));
 
-    this._setSelectedFilter<Ngr>('ngrSelected', ngrSelected);
+    this.ngrSelected = ngrSelected;
+    this._storageSelectedFilter<Ngr>('ngrSelected', ngrSelected);
     this.dataset = this._applyFilter();
   }
 
@@ -90,7 +93,8 @@ export class HousesListComponent implements OnInit {
       .filter(f => f.selected)
       .map(t => getProviderByValue(t.value));
 
-    this._setSelectedFilter<Provider>('providerSelected', providerSelected);
+    this.providerSelected = providerSelected;
+    this._storageSelectedFilter<Provider>('providerSelected', providerSelected);
     this.dataset = this._applyFilter();
   }
 
@@ -203,7 +207,7 @@ export class HousesListComponent implements OnInit {
     return Object.assign([], properties);
   }
 
-  private _setSelectedFilter<T>(key: string, value: T[]): void {
+  private _storageSelectedFilter<T>(key: string, value: T[]): void {
     this.localStorage.setItem(key, JSON.stringify(value));
   }
 
