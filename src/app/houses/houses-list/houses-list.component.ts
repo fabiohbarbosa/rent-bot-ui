@@ -119,13 +119,12 @@ export class HousesListComponent implements OnInit {
   }
 
   reloadCache(): void {
-    let snackBarRef = this.snackBar.open('Reloading properties...');
+    const snackBarRef = this.snackBar.open('Reloading properties...');
 
     this.propertyService
       .reloadCache()
       .subscribe(
         properties => {
-          console.info('Success to reload properties from cache');
           this.initialDatasetState = properties;
           this.dataset = this._applyFilter();
           snackBarRef.dismiss();
@@ -187,25 +186,25 @@ export class HousesListComponent implements OnInit {
     if (topologyLength > 0) {
       filteredProperties = this.initialDatasetState.filter(p =>
         this.topologySelected.indexOf(p.topology) > -1
-      )
+      );
     }
 
     if (statusLength > 0) {
       filteredProperties = this.initialDatasetState.filter(p =>
         this.statusSelected.indexOf(p.status) > -1
-      )
+      );
     }
 
     if (ngrLength > 0) {
       filteredProperties = this.initialDatasetState.filter(p =>
         this.ngrSelected.indexOf(p.ngr) > -1
-      )
+      );
     }
 
     if (providerLength > 0) {
       filteredProperties = this.initialDatasetState.filter(p =>
         this.providerSelected.indexOf(p.provider) > -1
-      )
+      );
     }
 
     return filteredProperties;
