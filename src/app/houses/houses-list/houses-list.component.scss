@@ -4,6 +4,14 @@
   margin: 35px;
 }
 
+.mat-icon {
+  cursor: pointer;
+}
+
+.mat-card-subtitle {
+  margin: 0;
+}
+
 .app-filter-item {
   &:first-of-type {
     margin-top: 0;

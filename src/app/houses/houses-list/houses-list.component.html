@@ -25,9 +25,11 @@
 
   <section fxFlex="85%">
     <div fxLayout="column">
-        <mat-card>
+        <mat-card fxLayout fxLayoutAlign="space-between center">
           <mat-card-subtitle> Total: {{dataset.length}} </mat-card-subtitle>
+          <mat-icon (click)="reloadCache()">refresh</mat-icon>
         </mat-card>
+
         <app-houses-table [dataset]="dataset" (sortDataEvent)="sortData($event)"></app-houses-table>
     </div>
   </section>

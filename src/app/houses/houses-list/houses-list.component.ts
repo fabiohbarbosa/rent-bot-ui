@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
+
 import Property, {
   Topology, Status, Ngr, Provider,
   getTopologyByValue, getStatusByValue, getNgrByValue, getProviderByValue,
@@ -39,7 +41,7 @@ export class HousesListComponent implements OnInit {
 
   defaultSort: Sort = { active: 'createAt', direction: 'asc' };
 
-  constructor(private propertyService: PropertyService) { }
+  constructor(private propertyService: PropertyService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.topologyFilters = this._buildFilter(Object.values(Topology));
@@ -50,7 +52,7 @@ export class HousesListComponent implements OnInit {
     this.propertyService
       .findAll()
       .subscribe(properties => {
-        this.initialDatasetState = this._clone(properties);
+        this.initialDatasetState = properties;
         this.dataset = this._applyFilter();
       }
     );
@@ -116,6 +118,22 @@ export class HousesListComponent implements OnInit {
     this.dataset = orderBy(this.initialDatasetState, [sort.active], [sort.direction]);
   }
 
+  reloadCache(): void {
+    let snackBarRef = this.snackBar.open('Reloading properties...');
+
+    this.propertyService
+      .reloadCache()
+      .subscribe(
+        properties => {
+          console.info('Success to reload properties from cache');
+          this.initialDatasetState = properties;
+          this.dataset = this._applyFilter();
+          snackBarRef.dismiss();
+        },
+        (err) => console.error(`Error to reload properties from cache: ${err}`)
+      );
+  }
+
   private _loadSelectedFiltersFromStorage(): void {
     this.topologySelected = this._getSelectedFilter('topologySelected') || [];
     this.statusSelected = this._getSelectedFilter('statusSelected') || [];
@@ -164,23 +182,31 @@ export class HousesListComponent implements OnInit {
       return this._initialState();
     }
 
-    const filteredProperties = this.initialDatasetState
-      .filter(p => {
-        if (topologyLength === 0) { return p; }
-        return this.topologySelected.indexOf(p.topology) > -1;
-      })
-      .filter(p => {
-        if (statusLength === 0) { return p; }
-        return this.statusSelected.indexOf(p.status) > -1;
-      })
-      .filter(p => {
-        if (ngrLength === 0) { return p; }
-        return this.ngrSelected.indexOf(p.ngr) > -1;
-      })
-      .filter(p => {
-        if (providerLength === 0) { return p; }
-        return this.providerSelected.indexOf(p.provider) > -1;
-      });
+    let filteredProperties = [];
+
+    if (topologyLength > 0) {
+      filteredProperties = this.initialDatasetState.filter(p =>
+        this.topologySelected.indexOf(p.topology) > -1
+      )
+    }
+
+    if (statusLength > 0) {
+      filteredProperties = this.initialDatasetState.filter(p =>
+        this.statusSelected.indexOf(p.status) > -1
+      )
+    }
+
+    if (ngrLength > 0) {
+      filteredProperties = this.initialDatasetState.filter(p =>
+        this.ngrSelected.indexOf(p.ngr) > -1
+      )
+    }
+
+    if (providerLength > 0) {
+      filteredProperties = this.initialDatasetState.filter(p =>
+        this.providerSelected.indexOf(p.provider) > -1
+      )
+    }
 
     return filteredProperties;
   }

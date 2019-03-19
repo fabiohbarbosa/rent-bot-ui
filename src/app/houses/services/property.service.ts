@@ -16,6 +16,13 @@ export class PropertyService {
 
   constructor(private http: HttpClient) { }
 
+  reloadCache(): Observable<Property[]> {
+    const observable = this.http.post<Property[]>(`${this.path}/reload_cache`, null);
+    const propMap = map((props: Property[]) => props.map(p => this.adapt(p)));
+
+    return observable.pipe(propMap, retry(3));
+  }
+
   findAll(): Observable<Property[]> {
     const observable = this.http.get<Property[]>(this.path);
     const propMap = map((props: Property[]) => props.map(p => this.adapt(p)));
