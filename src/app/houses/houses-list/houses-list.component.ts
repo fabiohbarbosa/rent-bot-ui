@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 
-import Property, {
-  Topology, Status, Ngr, Provider,
+import Property, { Topology, Status, Ngr, Provider } from '../models/property.model';
+import {
   getTopologyByValue, getStatusByValue, getNgrByValue, getProviderByValue,
-  ngrComparableAsc, ngrComparableDesc
-} from '../models/property.model';
+  ngrComparableAsc, ngrComparableDesc, priceComparableAsc, priceComparableDesc
+ } from '../models/property.functions';
+
 import { PropertyService } from '../services/property.service';
 import { FilterValue } from './houses-filter/houses-filter.component';
 import { Sort } from '@angular/material';
@@ -112,6 +113,16 @@ export class HousesListComponent implements OnInit {
       const ngrComparable = sort.direction === 'asc' ? ngrComparableAsc : ngrComparableDesc;
 
       newDataset.sort(ngrComparable);
+      this.dataset = newDataset;
+      return;
+    }
+
+    if (sort.active === 'price') {
+      const newDataset = this._initialState();
+
+      const priceComparable = sort.direction === 'asc' ? priceComparableAsc : priceComparableDesc;
+
+      newDataset.sort(priceComparable);
       this.dataset = newDataset;
       return;
     }

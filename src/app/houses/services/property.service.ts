@@ -4,9 +4,10 @@ import { Observable } from 'rxjs';
 import { map, retry } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
-import Property, {
+import Property from '../models/property.model';
+import {
   getStatusByIndex, getTopologyFromIndex, getNgrByString, getProviderByValue,
-} from '../models/property.model';
+} from '../models/property.functions';
 
 @Injectable({
   providedIn: 'root'
