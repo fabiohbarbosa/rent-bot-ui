@@ -9,7 +9,7 @@ enum Status {
   MATCHED = 'Matched',
   OUT_OF_FILTER = 'Out of filter',
   PENDING = 'Pending',
-  UNAVAILABLE = 'Unvailable',
+  UNAVAILABLE = 'Unavailable',
   UNKNOWN = 'Unknown'
 }
 
